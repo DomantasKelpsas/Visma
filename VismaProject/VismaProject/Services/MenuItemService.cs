@@ -1,5 +1,4 @@
 ﻿using CsvHelper;
-using CsvHelper.Configuration;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -9,17 +8,17 @@ using VismaProject.Mappers;
 
 namespace VismaProject.Services
 {
-    class StockItemService
+    class MenuItemService
     {
-        public List<StockItem> ReadCSVFile(string location)
+        public List<MenuItem> ReadCSVFile(string location)
         {
             try
             {
                 using (var reader = new StreamReader(location, Encoding.Default))
                 using (var csv = new CsvReader(reader, System.Globalization.CultureInfo.CurrentCulture))
                 {
-                    csv.Configuration.RegisterClassMap<StockItemMap>();
-                    var records = csv.GetRecords<StockItem>().ToList();
+                    csv.Configuration.RegisterClassMap<MenuItemMap>();
+                    var records = csv.GetRecords<MenuItem>().ToList();
                     return records;
                 }
             }
@@ -28,16 +27,16 @@ namespace VismaProject.Services
                 throw new Exception(e.Message);
             }
         }
-        public void WriteCSVFile(string path, List<StockItem> StockItem)
+        public void WriteCSVFile(string path, List<MenuItem> MenuItem)
         {
             using (StreamWriter sw = new StreamWriter(path, false, new UTF8Encoding(true)))
             using (CsvWriter cw = new CsvWriter(sw, System.Globalization.CultureInfo.CurrentCulture))
             {
-                cw.WriteHeader<StockItem>();
+                cw.WriteHeader<MenuItem>();
                 cw.NextRecord();
-                foreach (StockItem sti in StockItem)
+                foreach (MenuItem sti in MenuItem)
                 {
-                    cw.WriteRecord<StockItem>(sti);
+                    cw.WriteRecord<MenuItem>(sti);
                     cw.NextRecord();
                 }
             }

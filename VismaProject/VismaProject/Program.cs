@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using Microsoft.Extensions.Configuration;
 using VismaProject.Services;
@@ -13,37 +14,43 @@ namespace VismaProject
             var builder = new ConfigurationBuilder();
             BuildConfig(builder);
 
-            string directoryPath = Path.GetFullPath(@"..\..\..\");
+            string directoryPath = Path.GetFullPath(@"..\..\..\");           
+            string pathToStockCSV = Path.Combine(directoryPath, @"Data\stock.csv");
 
-
-
-            Console.WriteLine("Start CSV File Reading...");
             var _StockItemService = new StockItemService();
-            string stockCSV = "stock.csv";
-            string path = Path.Combine(directoryPath, @"Data\", stockCSV);
+             
+            var resultData = _StockItemService.ReadCSVFile(pathToStockCSV);
 
-            Console.WriteLine(path);
+            Console.Write("stock = 1 | : ");
+            switch (Convert.ToInt32(Console.ReadLine().Trim())) {
 
-            //var path = @"Data\stock.csv";
-            //Here We are calling function to read CSV file  
-            var resultData = _StockItemService.ReadCSVFile(path);
-            //Create an object of the StockItem class  
-            //StockItem StockItem = new StockItem();
-            //StockItem.RollNo = 5;
-            //StockItem.Name = "Lucy";
-            //StockItem.Course = "B.Tech";
-            //StockItem.Fees = 75000;
-            //StockItem.Mobile = "7788990099";
-            //StockItem.City = "Pune";
-            //resultData.Add(StockItem);
-            //Here We are calling function to write file  
-            //_StockItemService.WriteCSVFile(@"D:\Tutorials\NewStockItemFile.csv", resultData);
-            //Here D: Drive and Tutorials is the Folder name, and CSV File name will be "NewStockItemFile.csv"  
-            //Console.WriteLine("New File Created Successfully.");
+                case 1:
+                    Console.Write("insert = 1 | delete = 2: ");
+                    switch (Convert.ToInt32(Console.ReadLine().Trim())) {
 
-           
+                        case 1:
+                            addStockItem(ref _StockItemService, ref resultData, pathToStockCSV);
+                            break;
+                        case 2:
+                            Console.Write("Type Id of item to remove: ");
+                            int removeId = Convert.ToInt32(Console.ReadLine().Trim());
+                            removeStockItem(ref _StockItemService, ref resultData, pathToStockCSV, removeId);
+                            break;
+
+                    }
+                    break;
+                default:
+                    break;
+
+            }
+
+
+            //addStockItem(ref _StockItemService, ref resultData, pathToStockCSV);
+
             foreach (StockItem sti in resultData)
                 Console.WriteLine(sti.ToString());
+
+           
 
         }
         static void BuildConfig(IConfigurationBuilder builder)
@@ -52,6 +59,32 @@ namespace VismaProject
                 .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
                 .AddJsonFile($"appsettings.{Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") ?? "Production"}.json", optional: true)
                 .AddEnvironmentVariables();
+        }
+
+        static void addStockItem(ref StockItemService _StockItemService, ref List<StockItem> resultData, string path) {
+            StockItem StockItem = new StockItem();
+            StockItem.Id = 2;
+            StockItem.Name = "Potatoes";
+            StockItem.PortionCount = 10;
+            StockItem.Unit = "kg";
+            StockItem.PortionSize = (float)0.3;           
+            resultData.Add(StockItem);         
+            _StockItemService.WriteCSVFile(path, resultData);
+        }
+
+        static void removeStockItem(ref StockItemService _StockItemService, ref List<StockItem> resultData, string path, int removeId)
+        {
+            for (int i = 0; i < resultData.Count; i++)
+            {
+                if (resultData[i].Id == removeId)
+                {
+                    resultData.RemoveAt(i);
+                    break;
+                }
+
+            }
+            
+            _StockItemService.WriteCSVFile(path, resultData);
         }
     }
 }

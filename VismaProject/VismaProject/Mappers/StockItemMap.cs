@@ -11,9 +11,9 @@ namespace VismaProject.Mappers
         {
             Map(x => x.Id).Name("Id");
             Map(x => x.Name).Name("Name");
-            Map(x => x.PortionCount).Name("Portion count");
+            Map(x => x.PortionCount).Name("PortionCount");
             Map(x => x.Unit).Name("Unit");
-            Map(x => x.PortionSize).Name("Portion size");
+            Map(x => x.PortionSize).Name("PortionSize");
            
         }
     }

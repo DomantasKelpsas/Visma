@@ -1,9 +1,11 @@
 {
   "version": 2,
-  "dgSpecHash": "qstlZx94MnuvEhnAva0zsvjoItQ+NkJTydOdTssyR5ROMKr1Qs6OCnCBcT6QPXumGZ6D4uaoxoqZcataPXUT6g==",
+  "dgSpecHash": "9a7GwGmtF3tt2YYpCEm5TzLJp6pOzO66SBovv2bHYGBrCcu+cmhR3/9cbdQGjVfwnKPzg9F3t2cQ1f/dT7pJ7w==",
   "success": true,
   "projectFilePath": "C:\\Users\\Premium Laptop\\Desktop\\Visma\\VismaProject\\VismaProject\\VismaProject.csproj",
   "expectedPackageFiles": [
+    "C:\\Users\\Premium Laptop\\.nuget\\packages\\csvhelper\\19.0.0\\csvhelper.19.0.0.nupkg.sha512",
+    "C:\\Users\\Premium Laptop\\.nuget\\packages\\microsoft.csharp\\4.5.0\\microsoft.csharp.4.5.0.nupkg.sha512",
     "C:\\Users\\Premium Laptop\\.nuget\\packages\\microsoft.extensions.configuration\\5.0.0\\microsoft.extensions.configuration.5.0.0.nupkg.sha512",
     "C:\\Users\\Premium Laptop\\.nuget\\packages\\microsoft.extensions.configuration.abstractions\\5.0.0\\microsoft.extensions.configuration.abstractions.5.0.0.nupkg.sha512",
     "C:\\Users\\Premium Laptop\\.nuget\\packages\\microsoft.extensions.configuration.binder\\5.0.0\\microsoft.extensions.configuration.binder.5.0.0.nupkg.sha512",

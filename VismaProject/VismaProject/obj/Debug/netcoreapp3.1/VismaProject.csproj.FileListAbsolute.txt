@@ -48,3 +48,4 @@ C:\Users\Premium Laptop\Desktop\Visma\VismaProject\VismaProject\obj\Debug\netcor
 C:\Users\Premium Laptop\Desktop\Visma\VismaProject\VismaProject\obj\Debug\netcoreapp3.1\VismaProject.dll
 C:\Users\Premium Laptop\Desktop\Visma\VismaProject\VismaProject\obj\Debug\netcoreapp3.1\VismaProject.pdb
 C:\Users\Premium Laptop\Desktop\Visma\VismaProject\VismaProject\obj\Debug\netcoreapp3.1\VismaProject.genruntimeconfig.cache
+C:\Users\Premium Laptop\Desktop\Visma\VismaProject\VismaProject\bin\Debug\netcoreapp3.1\CsvHelper.dll

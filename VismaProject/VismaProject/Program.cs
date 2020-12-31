@@ -24,13 +24,7 @@ namespace VismaProject
 
             InitConsoleUI(pathsToCSV);
 
-            //addStockItem(ref _StockItemService, ref resultData, pathToStockCSV);
-
-            //foreach (StockItem sti in resultData)
-            //    Console.WriteLine(sti.ToString());
-
-
-
+   
         }
         static void BuildConfig(IConfigurationBuilder builder)
         {
@@ -69,7 +63,7 @@ namespace VismaProject
                         break;
                 case "o":
                         printData<OrderItem>(resultDataOfOrder);
-                        orderItemAcions(ref _OrderItemService, ref resultDataOfOrder, pathsToCSV[1]);
+                        orderItemAcions(ref _OrderItemService, ref resultDataOfOrder, pathsToCSV[2]);
                         break;
                     case "x":
                         refresh = false;
@@ -108,14 +102,14 @@ namespace VismaProject
         static void addMenuItem(ref MenuItemService _ItemService, ref List<MenuItem> resultData, string path)
         {
 
+            checkValidItemIds<MenuItem>(resultData, "");
+
             Console.Write("Insert item id: ");
             int id = Convert.ToInt32(Console.ReadLine().Trim());
             Console.Write("Insert item name: ");
             string name = Console.ReadLine().Trim();
             Console.Write("Insert item Products: ");
             string products = Console.ReadLine().Trim();
-
-
 
 
             MenuItem menuItem = new MenuItem();
@@ -141,49 +135,20 @@ namespace VismaProject
             _ItemService.WriteCSVFile(path, resultData);
         }
 
-        static void removeStockItem(ref StockItemService _ItemService, ref List<StockItem> resultData, string path, int removeId)
+        static void removeItem<I>(ref List<I> resultData, int removeId)
         {
             for (int i = 0; i < resultData.Count; i++)
             {
-                if (resultData[i].Id == removeId)
+                var x = resultData[i].GetType().GetProperty("Id").GetValue(resultData[i], null);
+                if ((int)x == removeId)
                 {
                     resultData.RemoveAt(i);
                     break;
                 }
 
             }
-
-            _ItemService.WriteCSVFile(path, resultData);
         }
-
-        static void removeMenuItem(ref MenuItemService _ItemService, ref List<MenuItem> resultData, string path, int removeId)
-        {
-            for (int i = 0; i < resultData.Count; i++)
-            {
-                if (resultData[i].Id == removeId)
-                {
-                    resultData.RemoveAt(i);
-                    break;
-                }
-
-            }
-
-            _ItemService.WriteCSVFile(path, resultData);
-        }
-        static void removeOrderItem(ref OrderItemService _ItemService, ref List<OrderItem> resultData, string path, int removeId)
-        {
-            for (int i = 0; i < resultData.Count; i++)
-            {
-                if (resultData[i].Id == removeId)
-                {
-                    resultData.RemoveAt(i);
-                    break;
-                }
-
-            }
-
-            _ItemService.WriteCSVFile(path, resultData);
-        }
+     
 
         static void stockItemAcions(ref StockItemService _itemService, ref List<StockItem> resultData, string pathToFile) {
 
@@ -197,7 +162,8 @@ namespace VismaProject
                 case 2:
                     Console.Write("Type Id of item to remove: ");
                     int removeId = Convert.ToInt32(Console.ReadLine().Trim());
-                    removeStockItem(ref _itemService, ref resultData, pathToFile, removeId);
+                    removeItem(ref resultData, removeId);
+                    _itemService.WriteCSVFile(pathToFile, resultData);
                     break;
                 case 3:
                     printData<StockItem>(resultData);
@@ -219,7 +185,8 @@ namespace VismaProject
                 case 2:
                     Console.Write("Type Id of item to remove: ");
                     int removeId = Convert.ToInt32(Console.ReadLine().Trim());
-                    removeMenuItem(ref _itemService, ref resultData, pathToFile, removeId);
+                    removeItem(ref resultData, removeId);
+                    _itemService.WriteCSVFile(pathToFile, resultData);
                     break;
                 case 3:
                     printData<MenuItem>(resultData);
@@ -241,7 +208,8 @@ namespace VismaProject
                 case 2:
                     Console.Write("Type Id of item to remove: ");
                     int removeId = Convert.ToInt32(Console.ReadLine().Trim());
-                    removeOrderItem(ref _itemService, ref resultData, pathToFile, removeId);
+                    removeItem(ref resultData, removeId);
+                    _itemService.WriteCSVFile(pathToFile, resultData);
                     break;
                 case 3:
                     printData<OrderItem>(resultData);
@@ -250,6 +218,36 @@ namespace VismaProject
             }
         }
 
+        static void itemAcions<I>(ref ItemService<I> _itemService, ref List<I> resultData, string pathToFile)
+        {
+
+            Console.Write("insert = 1 \t | \t delete = 2 \t | \t view = 3 \t: ");
+            switch (Convert.ToInt32(Console.ReadLine().Trim()))
+            {
+
+                case 1:
+                   
+                    //addOrderItem(ref _itemService, ref resultData, pathToFile);
+                    break;
+                case 2:
+                    Console.Write("Type Id of item to remove: ");
+                    int removeId = Convert.ToInt32(Console.ReadLine().Trim());
+                    removeItem(ref resultData, removeId);
+                    _itemService.WriteCSVFile(pathToFile, resultData);
+                    break;
+                case 3:
+                    printData<I>(resultData);
+                    break;
+
+            }
+        }
+        static bool checkValidItemIds<I>(List<I> resultData, string ids) {
+
+            foreach (var item in resultData)
+                Console.WriteLine(item.GetType().GetProperty("Id").GetValue(item, null));
+
+                return true;
+        }
 
 
         static void printData<I>(List<I> resultData) {

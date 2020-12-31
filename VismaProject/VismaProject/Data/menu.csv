@@ -1,3 +1,2 @@
-﻿Id,Name,Products
-1,Chicken with fries,1 2 3
-2,kebab,1 2
+﻿Id,DateTime,MenuItems
+1,2020-12-31 02:34:41,1 2

@@ -48,6 +48,9 @@ namespace VismaProject
             var _MenuItemService = new MenuItemService();
             var resultDataOfMenu = _MenuItemService.ReadCSVFile(pathsToCSV[1]);
 
+            var _OrderItemService = new OrderItemService();
+            var resultDataOfOrder = _OrderItemService.ReadCSVFile(pathsToCSV[2]);
+
             bool refresh = true;
 
             while (refresh) { 
@@ -65,7 +68,9 @@ namespace VismaProject
                         menuItemAcions(ref _MenuItemService, ref resultDataOfMenu, pathsToCSV[1]);
                         break;
                 case "o":
-                    break;
+                        printData<OrderItem>(resultDataOfOrder);
+                        orderItemAcions(ref _OrderItemService, ref resultDataOfOrder, pathsToCSV[1]);
+                        break;
                     case "x":
                         refresh = false;
                         break;
@@ -120,6 +125,21 @@ namespace VismaProject
             resultData.Add(menuItem);
             _ItemService.WriteCSVFile(path, resultData);
         }
+        static void addOrderItem(ref OrderItemService _ItemService, ref List<OrderItem> resultData, string path)
+        {
+
+            Console.Write("Insert order id: ");
+            int id = Convert.ToInt32(Console.ReadLine().Trim());        
+            Console.Write("Insert menu Items: ");
+            string products = Console.ReadLine().Trim();
+
+            OrderItem OrderItem = new OrderItem();
+            OrderItem.Id = id;
+            OrderItem.DateTime = DateTime.Now;
+            OrderItem.MenuItems = products;
+            resultData.Add(OrderItem);
+            _ItemService.WriteCSVFile(path, resultData);
+        }
 
         static void removeStockItem(ref StockItemService _ItemService, ref List<StockItem> resultData, string path, int removeId)
         {
@@ -137,6 +157,20 @@ namespace VismaProject
         }
 
         static void removeMenuItem(ref MenuItemService _ItemService, ref List<MenuItem> resultData, string path, int removeId)
+        {
+            for (int i = 0; i < resultData.Count; i++)
+            {
+                if (resultData[i].Id == removeId)
+                {
+                    resultData.RemoveAt(i);
+                    break;
+                }
+
+            }
+
+            _ItemService.WriteCSVFile(path, resultData);
+        }
+        static void removeOrderItem(ref OrderItemService _ItemService, ref List<OrderItem> resultData, string path, int removeId)
         {
             for (int i = 0; i < resultData.Count; i++)
             {
@@ -193,7 +227,31 @@ namespace VismaProject
 
             }
         }
-       
+
+        static void orderItemAcions(ref OrderItemService _itemService, ref List<OrderItem> resultData, string pathToFile)
+        {
+
+            Console.Write("insert = 1 \t | \t delete = 2 \t | \t view = 3 \t: ");
+            switch (Convert.ToInt32(Console.ReadLine().Trim()))
+            {
+
+                case 1:
+                    addOrderItem(ref _itemService, ref resultData, pathToFile);
+                    break;
+                case 2:
+                    Console.Write("Type Id of item to remove: ");
+                    int removeId = Convert.ToInt32(Console.ReadLine().Trim());
+                    removeOrderItem(ref _itemService, ref resultData, pathToFile, removeId);
+                    break;
+                case 3:
+                    printData<OrderItem>(resultData);
+                    break;
+
+            }
+        }
+
+
+
         static void printData<I>(List<I> resultData) {
 
             foreach (var item in resultData)

@@ -9,7 +9,7 @@ using VismaProject.Mappers;
 
 namespace VismaProject.Services
 {
-    class StockItemService
+    public class StockItemService
     {
         public List<StockItem> ReadCSVFile(string location)
         {

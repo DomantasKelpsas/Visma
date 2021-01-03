@@ -34,9 +34,9 @@ namespace VismaProject.Services
             {
                 cw.WriteHeader<MenuItem>();
                 cw.NextRecord();
-                foreach (MenuItem sti in MenuItem)
+                foreach (MenuItem i in MenuItem)
                 {
-                    cw.WriteRecord<MenuItem>(sti);
+                    cw.WriteRecord<MenuItem>(i);
                     cw.NextRecord();
                 }
             }

@@ -35,6 +35,10 @@ namespace VismaProject
                 .AddEnvironmentVariables();
         }
 
+        /// <summary>
+        /// Basic console UI and data selection
+        /// </summary>
+        /// <param name="pathsToCSV"></param>
         static void InitConsoleUI(string[] pathsToCSV) {
 
             
@@ -78,6 +82,28 @@ namespace VismaProject
             }
         }
     }
+
+        #region lots of not DRY
+
+
+        /*
+         * There is lots of code repetition, the task didn't seem to be difficult 
+         * but i couldn't manage to reduce code. Tried using generic methods and classes
+         * but wasnt succesfull, had many errors so i left it like this
+         * 
+         * --- Would really appreciate if you could send me an example of how to propertly
+         * --- code this task. Thank You!
+        */
+
+
+
+
+        /// <summary>
+        /// Add stock items to csv
+        /// </summary>
+        /// <param name="_ItemService"></param>
+        /// <param name="resultData"></param>
+        /// <param name="path"></param>
         static void addStockItem(ref StockItemService _ItemService, ref List<StockItem> resultData, string path) {
 
             Console.Write("LAST -> " + resultData.Last().ToString());
@@ -102,6 +128,13 @@ namespace VismaProject
             resultData.Add(StockItem);         
             _ItemService.WriteCSVFile(path, resultData);
         }
+        
+        /// <summary>
+        /// Add menu items to csv
+        /// </summary>
+        /// <param name="_ItemService"></param>
+        /// <param name="resultData"></param>
+        /// <param name="pathsToCSV"></param>
         static void addMenuItem(ref MenuItemService _ItemService, ref List<MenuItem> resultData, string[] pathsToCSV)
         {
 
@@ -128,6 +161,13 @@ namespace VismaProject
             }
             else Console.WriteLine($"Could not find such items ({products})");
         }
+
+        /// <summary>
+        /// Add orders to csv
+        /// </summary>
+        /// <param name="_ItemService"></param>
+        /// <param name="resultData"></param>
+        /// <param name="pathsToCSV"></param>
         static void addOrderItem(ref OrderItemService _ItemService, ref List<OrderItem> resultData, string[] pathsToCSV)
         {
 
@@ -157,6 +197,12 @@ namespace VismaProject
             }
             else Console.WriteLine($"Could not find such items ({products})");
         }
+        /// <summary>
+        /// Removes item by id from either list
+        /// </summary>
+        /// <typeparam name="I"></typeparam>
+        /// <param name="resultData"></param>
+        /// <param name="removeId"></param>
         public static void removeItem<I>(ref List<I> resultData, int removeId)
         {
             for (int i = 0; i < resultData.Count; i++)
@@ -174,7 +220,12 @@ namespace VismaProject
             }
         }
      
-
+        /// <summary>
+        /// Action sellections for stock items
+        /// </summary>
+        /// <param name="_itemService"></param>
+        /// <param name="resultData"></param>
+        /// <param name="pathToFile"></param>
         static void stockItemAcions(ref StockItemService _itemService, ref List<StockItem> resultData, string pathToFile) {
 
             Console.Write("insert = 1 \t | \t delete = 2 \t | \t view = 3 \t: ");
@@ -202,6 +253,12 @@ namespace VismaProject
             }
         }
 
+        /// <summary>
+        /// Action sellections for menu items
+        /// </summary>
+        /// <param name="_itemService"></param>
+        /// <param name="resultData"></param>
+        /// <param name="pathsToCSV"></param>
         static void menuItemAcions(ref MenuItemService _itemService, ref List<MenuItem> resultData, string[] pathsToCSV)
         {
 
@@ -230,6 +287,12 @@ namespace VismaProject
             }
         }
 
+        /// <summary>
+        /// Action sellections for orders
+        /// </summary>
+        /// <param name="_itemService"></param>
+        /// <param name="resultData"></param>
+        /// <param name="pathsToCSV"></param>
         static void orderItemAcions(ref OrderItemService _itemService, ref List<OrderItem> resultData, string[] pathsToCSV)
         {
 
@@ -257,7 +320,17 @@ namespace VismaProject
 
             }
         }
-       
+    
+        
+        #endregion 
+
+        /// <summary>
+        /// Check if typed id exist, to use it for menus or orders
+        /// </summary>
+        /// <typeparam name="I"></typeparam>
+        /// <param name="resultData"></param>
+        /// <param name="ids"></param>
+        /// <returns></returns>
         public static bool checkValidItemIds<I>(List<I> resultData, string ids) {
 
 
@@ -280,12 +353,23 @@ namespace VismaProject
             else return false;
         }
 
+        /// <summary>
+        /// Print items from list
+        /// </summary>
+        /// <typeparam name="I"></typeparam>
+        /// <param name="resultData"></param>
         static void printData<I>(List<I> resultData) {
 
             foreach (var item in resultData)
                 Console.WriteLine(item.ToString());
         }
 
+        /// <summary>
+        /// Deduct Portion Count after creating new order
+        /// </summary>
+        /// <param name="ids"></param>
+        /// <param name="pathsToCSV"></param>
+        /// <returns></returns>
         public static bool reduceFromStock(string ids, string[] pathsToCSV) {
 
             var menuIds = ids.Trim().Split(' ').Select(Int32.Parse).ToList();
